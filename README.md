@@ -9,7 +9,7 @@ Inspired and Forked from [dyatchenko](https://github.com/dyatchenko/ServiceBroke
 2. Add ExtendedSqlDependency.dll to your solution.
 3. Make sure that Service Broker is enabled for your database.
     
-    ```
+    ```sql
     ALTER DATABASE test SET ENABLE_BROKER
     
     -- For SQL Express
@@ -27,7 +27,7 @@ The abstract base class `ExtendedSqlDependency<TArgs>` is the one doing most of 
 
 This library already has 3 classes implementing `ExtendedSqlDependency<TArgs>`; `SqlTableDependency<T>`, `SqlFieldDependency<TEntity, TResult>` and `SqlConcurrentDependency` (work in progress) which can be used as follows:
 
-```
+```csharp
 var conStr = "Data Source=192.168.0.101;Initial Catalog=db;Password=myPass;User ID=myUser";
 SqlFieldDependency<UnStatut, string> sqlDependency = new SqlFieldDependency<UnStatut, string>(p => p.Name == "Code", conStr, receiveDetails: true, identity: Guid.NewGuid());
 SqlTableDependency<UnStatut> sqlTableDependency = new SqlTableDependency<UnStatut>(conStr, receiveDetails: true, identity: Guid.NewGuid());
