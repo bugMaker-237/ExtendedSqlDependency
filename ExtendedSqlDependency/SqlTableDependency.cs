@@ -65,11 +65,13 @@ namespace SqlDependencyEx
 
             this.ChildElements = "";
 
-            if(type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p=>
-            {
-                var attr = p.GetCustomAttribute<XmlElementAttribute>();
-                return attr.ElementName != attr.ElementName.ToUpper();
-            }))
+
+            //Because ElementName in XMLElementAttribute has to be the same as the name present in the resulting XML from BrokerListner
+            if (type.GetProperties(BindingFlags.Public | BindingFlags.Instance).Any(p =>
+             {
+                 var attr = p.GetCustomAttribute<XmlElementAttribute>();
+                 return attr.ElementName != attr.ElementName.ToUpper();
+             }))
                 throw new NotSupportedException($@"XmlElements of type '{type.Name}' are not correctly defined. 
                                                 Element names must be in uppercase.");
 
@@ -77,12 +79,12 @@ namespace SqlDependencyEx
                 ?.Where(p => p.GetCustomAttribute<XmlElementAttribute>() != null && p.GetCustomAttribute<SqlFieldDependencyAttribute>() != null)
                 ?.Select(p => p.GetCustomAttribute<SqlFieldDependencyAttribute>());
 
-            if(attrElms == null || attrElms.Count() == 0)
-                    throw new NotSupportedException($@"{type.Name} does not support XmlSerialisation or SqlFieldDependency. 
+            if (attrElms == null || attrElms.Count() == 0)
+                throw new NotSupportedException($@"{type.Name} does not support XmlSerialisation or SqlFieldDependency. 
                                                     Verify that the Model class is marked with the required attribute.");
-            
 
-            this.ChildElements = string.Join(", ", attrElms.Select(a => $"''{a.Name.ToLower()}''")); 
+
+            this.ChildElements = string.Join(", ", attrElms.Select(a => $"''{a.Name.ToUpper()}''"));
 
 
         }

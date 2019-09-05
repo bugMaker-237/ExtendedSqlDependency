@@ -62,9 +62,10 @@ namespace SqlDependencyEx.TSQLHelpers
                             
                             SET @triggerStatement = N''{3}''
                             
+                            -- Make sure table columns do not have these types (''text'',''ntext'',''image'',''geometry'',''geography'')
                             SET @select = STUFF((SELECT '','' + ''['' + COLUMN_NAME + '']''
 						                         FROM INFORMATION_SCHEMA.COLUMNS
-						                         WHERE DATA_TYPE NOT IN  (''text'',''ntext'',''image'',''geometry'',''geography'') AND TABLE_SCHEMA = ''{6}'' AND TABLE_NAME = ''{5}'' AND TABLE_CATALOG = ''{0}'' AND LOWER(COLUMN_NAME) in ({8})
+						                         WHERE DATA_TYPE NOT IN  (''text'',''ntext'',''image'',''geometry'',''geography'') AND TABLE_SCHEMA = ''{6}'' AND TABLE_NAME = ''{5}'' AND TABLE_CATALOG = ''{0}'' AND COLUMN_NAME in ({8})
 						                         FOR XML PATH ('''')
 						                         ), 1, 1, '''')
                             SET @sqlInserted = 

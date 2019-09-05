@@ -31,7 +31,7 @@ namespace SqlDependencyEx
             this.Predicate = propPredicate;
             this.TryReadField();
         }
-        
+
 
         /// <summary>
         /// Constructor with automatique Guid
@@ -71,7 +71,7 @@ namespace SqlDependencyEx
                                                 Verify that the Model class is marked with the required attribute.");
 
             this.TableName = attrStd.Name;
-            
+
             this.ElementRoot = "ROW";
         }
 
@@ -89,7 +89,7 @@ namespace SqlDependencyEx
                 throw new NotSupportedException($@"{nameof(TEntity)} does not support SqlFieldDependency. 
                                                     Verify that the Model's property type is the same as TResult and make sure predicate is defined.");
 
-            this.ChildElements = $"''{attrElms.FirstOrDefault()?.Name.ToLower()}''";
+            this.ChildElements = $"''{attrElms.FirstOrDefault()?.Name.ToUpper()}''";
         }
 
     }
